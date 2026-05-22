@@ -6,7 +6,7 @@ import Map from "../pages/Map"
 import Wishlist from "../pages/Wishlist"
 import Profile from "../pages/Profile"
 import Checklist from "../pages/Checklist"
-import Statistics from "../pages/Statistics"
+import Statistics from "../pages/Statistic"
 import NotFound from "../pages/NotFound"
 
 export default function AppRoutes(){
