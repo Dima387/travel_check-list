@@ -26,7 +26,7 @@ return(
 
         <Route path="/checklists" element={<Checklist/>}/>
 
-        <Route path="/statistics" element={<h1>Statistics</h1>}/>
+        <Route path="/statistics" element={<Statistics/>}/>
 
         <Route path="*" element={<NotFound/>} />
 
