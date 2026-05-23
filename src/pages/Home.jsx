@@ -1,13 +1,20 @@
+import { Navigate } from "react-router-dom"
 import MainLayout from "../layouts/MainLayout"
 
 export default function Home(){
 
-return(
+    const registeredUser = localStorage.getItem("registeredUser")
 
-    <MainLayout>
-        <h1>TravelMap</h1>
-    </MainLayout>
+    if (!registeredUser) {
+        return <Navigate to="/register" replace />
+    }
 
-)
+    return(
+
+        <MainLayout>
+            <h1>TravelMap</h1>
+        </MainLayout>
+
+    )
 
 }
