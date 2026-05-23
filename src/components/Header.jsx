@@ -14,7 +14,7 @@ export default function Header(){
 
     return(
 
-        <header className="bg-slate-950/95 border-b border-slate-800 shadow-[0_1px_30px_-20px_rgba(0,0,0,0.8)] h-20 flex items-center px-8">
+        <header className="sticky top-0 z-50 bg-slate-950/95 border-b border-slate-800 shadow-[0_1px_30px_-20px_rgba(0,0,0,0.8)] h-20 flex items-center px-8">
             <div className="flex items-center gap-3">
                 <Link to="/" className="flex items-center gap-3">
                     <img src="/img/logo.png" alt="TravelMap logo" className="w-11 h-11 object-contain rounded-full border border-cyan-500/40 bg-slate-900 p-1"/>
