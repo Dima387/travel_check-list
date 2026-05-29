@@ -11,7 +11,7 @@ export default function Sidebar() {
         { title: "Dashboard", path: "/dashboard", icon: "/img/home.png" },
         { title: "Map", path: "/map", icon: "/img/map.png" },
         { title: "Wishlist", path: "/wishlist", icon: "/img/favourite.png" },
-        { title: "Checklist", path: "/checklists", icon: "/img/pin.png" },
+        { title: "Checklist", path: "/checklists", icon: "/img/clipboard.png" },
         { title: "Statistics", path: "/statistics", icon: "/img/statistics.png" },
         { title: "Profile", path: "/profile", icon: "/img/user.png" }
     ]
@@ -48,7 +48,7 @@ export default function Sidebar() {
                 </nav>
             </div>
 
-            <div className="px-6 pb-6 pt-4">
+            {/* <div className="px-6 pb-6 pt-4">
                 <button
                     onClick={handleLogout}
                     className="w-full rounded-3xl border border-slate-700 bg-slate-900/90 px-4 py-3 flex items-center gap-3 text-left text-slate-200 hover:bg-slate-800"
@@ -56,7 +56,7 @@ export default function Sidebar() {
                     <img src="/img/exit.png" alt="Logout icon" className="h-4 w-4" />
                     Logout
                 </button>
-            </div>
+            </div> */}
         </aside>
 
     )
