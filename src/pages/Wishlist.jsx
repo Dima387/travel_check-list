@@ -1,6 +1,8 @@
 import MainLayout from "../layouts/MainLayout"
 import useWishlist from "../hooks/useWishlist"
 import {useState} from "react"
+import 'flag-icons/css/flag-icons.min.css'
+import { COUNTRIES } from "../data/wishlistData"
 
 export default function Wishlist(){
 
@@ -10,7 +12,8 @@ export default function Wishlist(){
     const addPlace=(e)=>{
         e.preventDefault()
         if(!country)return
-        const newPlace={id:Date.now(), country, status:"wishlist"}
+        const countryObj = COUNTRIES.find(c => c.name === country)
+        const newPlace={id:Date.now(), country: countryObj.name, code: countryObj.code, status:"wishlist"}
         setWishlist([...wishlist, newPlace])
         setCountry("")
     }
@@ -38,12 +41,17 @@ export default function Wishlist(){
                     </div>
 
                     <form onSubmit={addPlace} className="flex flex-col gap-3 sm:flex-row sm:items-center w-full sm:w-auto">
-                        <input
-                            placeholder="Country"
+                        <select
                             value={country}
                             onChange={(e)=>setCountry(e.target.value)}
-                            className="w-full rounded-2xl border border-slate-800 bg-slate-900/90 px-4 py-3 text-slate-100 outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
-                        />
+                            className="w-full rounded-2xl border border-slate-800 bg-slate-900/90 px-4 py-3 text-slate-100 outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 appearance-none bg-right pr-10"
+                            style={{backgroundImage: "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\" fill=\"%2364748b\"><path fill-rule=\"evenodd\" d=\"M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z\" clip-rule=\"evenodd\" /></svg>')", backgroundRepeat: "no-repeat", backgroundSize: "1.5em 1.5em"}}
+                        >
+                            <option value="">Select a country</option>
+                            {COUNTRIES.map((c) => (
+                                <option key={c.name} value={c.name}>{c.name}</option>
+                            ))}
+                        </select>
                         <button className="h-12 rounded-2xl bg-cyan-500 px-6 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400">
                             Add
                         </button>
@@ -61,8 +69,11 @@ export default function Wishlist(){
                             <div key={place.id} className="rounded-[28px] border border-slate-800 bg-slate-900/95 p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
                                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                                     <div>
-                                        <h2 className="text-2xl font-semibold text-white">{place.country}</h2>
-                                        <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] ${place.status === "visited" ? "bg-emerald-500/10 text-emerald-300 border border-emerald-500/20" : "bg-slate-800 text-slate-300 border border-slate-700"}`}>
+                                        <div className="flex items-center gap-2">
+                                            <span className={`fi fi-${place.code || COUNTRIES.find(c => c.name === place.country)?.code || "xx"} inline-block w-6 h-4`}></span>
+                                            <h2 className="text-2xl font-semibold text-white">{place.country}</h2>
+                                        </div>
+                                        <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] mt-2 ${place.status === "visited" ? "bg-emerald-500/10 text-emerald-300 border border-emerald-500/20" : "bg-slate-800 text-slate-300 border border-slate-700"}`}>
                                             {place.status}
                                         </span>
                                     </div>

@@ -8,6 +8,8 @@ export default function Checklist(){
         return saved ? JSON.parse(saved) : []
     })
     const [itemTexts, setItemTexts] = useState({})
+    const [editingId, setEditingId] = useState(null)
+    const [editingTitle, setEditingTitle] = useState("")
 
     useEffect(() => {
         localStorage.setItem("checklists", JSON.stringify(checklists))
@@ -61,6 +63,24 @@ export default function Checklist(){
         }))
     }
 
+    const deleteChecklist = (listId) => {
+        setChecklists(checklists.filter((list) => list.id !== listId))
+    }
+
+    const startRenaming = (listId, currentTitle) => {
+        setEditingId(listId)
+        setEditingTitle(currentTitle)
+    }
+
+    const saveRename = (listId) => {
+        if (!editingTitle.trim()) return
+        setChecklists(checklists.map((list) =>
+            list.id === listId ? { ...list, title: editingTitle.trim() } : list
+        ))
+        setEditingId(null)
+        setEditingTitle("")
+    }
+
     return(
         <MainLayout>
             <div className="flex flex-col gap-8">
@@ -86,12 +106,54 @@ export default function Checklist(){
                     <div className="grid gap-5">
                         {checklists.map((list)=>(
                             <div key={list.id} className="rounded-[32px] border border-slate-800 bg-slate-950/90 p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
-                                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                                    <div>
-                                        <h2 className="text-2xl font-semibold text-white">{list.title}</h2>
-                                        <p className="mt-1 text-sm text-slate-400">{list.items.length} item{list.items.length === 1 ? "" : "s"}</p>
+                                <div className="flex flex-col gap-4">
+                                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                        <div className="flex-1">
+                                            {editingId === list.id ? (
+                                                <div className="flex items-center gap-3">
+                                                    <input
+                                                        value={editingTitle}
+                                                        onChange={(e) => setEditingTitle(e.target.value)}
+                                                        className="rounded-2xl border border-slate-800 bg-slate-900/90 px-4 py-2 text-slate-100 outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
+                                                        autoFocus
+                                                    />
+                                                    <button
+                                                        onClick={() => saveRename(list.id)}
+                                                        className="inline-flex h-10 items-center justify-center rounded-2xl bg-emerald-500/10 px-4 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-500/20"
+                                                    >
+                                                        Save
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setEditingId(null)}
+                                                        className="inline-flex h-10 items-center justify-center rounded-2xl bg-slate-800 px-4 text-sm font-semibold text-slate-300 transition hover:bg-slate-700"
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <h2 className="text-2xl font-semibold text-white">{list.title}</h2>
+                                                    <p className="mt-1 text-sm text-slate-400">{list.items.length} item{list.items.length === 1 ? "" : "s"}</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <button
+                                                onClick={() => startRenaming(list.id, list.title)}
+                                                disabled={editingId === list.id}
+                                                className="inline-flex h-10 items-center justify-center rounded-2xl bg-slate-800 px-4 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 disabled:opacity-50"
+                                            >
+                                                Rename
+                                            </button>
+                                            <button
+                                                onClick={() => deleteChecklist(list.id)}
+                                                className="inline-flex h-10 items-center justify-center rounded-2xl bg-red-500/10 px-4 text-sm font-semibold text-red-300 transition hover:bg-red-500/20"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div className="flex items-center gap-3 w-full sm:w-auto">
+                                    <div className="flex items-center gap-3 w-full">
                                         <input
                                             value={itemTexts[list.id] || ""}
                                             onChange={(e)=>handleItemTextChange(list.id, e.target.value)}
