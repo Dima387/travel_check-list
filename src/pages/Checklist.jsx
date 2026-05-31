@@ -186,7 +186,12 @@ export default function Checklist(){
                                                         onClick={()=>toggleCompleted(list.id, item.id)}
                                                         className="inline-flex h-11 items-center justify-center rounded-2xl bg-cyan-500/10 px-4 text-sm font-semibold text-cyan-300 transition hover:bg-cyan-500/20"
                                                     >
-                                                        {item.completed ? "Mark uncompleted" : "Mark completed"}
+                                                        <span className="hidden sm:inline">
+                                                            {item.completed ? "Mark uncompleted" : "Mark completed"}
+                                                        </span>
+                                                        <span className="inline sm:hidden text-lg">
+                                                            ✔
+                                                        </span>
                                                     </button>
                                                     <button
                                                         onClick={()=>removeItem(list.id, item.id)}

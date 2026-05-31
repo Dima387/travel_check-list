@@ -9,7 +9,7 @@ export default function Header(){
 
     const handleLogout=()=>{
         logout()
-        nav("/")
+        nav("/login")
     }
 
     return(
